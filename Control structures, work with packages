@@ -1,0 +1,126 @@
+## Управляющие конструкции ##
+
+# if и else
+if (sqrt(2) > 1.5) {
+  print("Greater!")
+} else {                # else переносить нельзя
+  print('Less!')
+}
+# [1] "Less!"
+
+ifelse(runif(8) > 0.5, "Орел", "Решка") # runif - независимое испытание случайной величины,
+                                        # равномерно распреленное от 0 до 1
+
+# > ifelse(runif(8) > 0.5, "Орел", "Решка")
+# [1] "Решка" "Орел"  "Решка" "Орел"  "Решка" "Решка" "Орел"  "Орел" 
+# > ifelse(runif(8) > 0.5, "Орел", "Решка")
+# [1] "Орел"  "Орел"  "Орел"  "Орел"  "Решка" "Орел"  "Орел"  "Решка"
+
+x <- runif(8)
+ifelse(x > 2/3, "Камень",
+       ifelse(x > 1/3, "Ножницы", "Бумага"))
+
+# Множественный выбор
+
+switch("factorial",
+       sum = 5 + 5,
+       product = 5 * 5,
+       factorial = factorial(5))
+
+
+# Циклы
+i <- 0
+repeat{
+  i <- i + runif(1)
+  print(i)
+  if (i > 5) break
+}
+
+i <- 2^14
+while (i > 1000) {
+  i <- i/2
+  print(i)
+}
+
+for(i in 1:8) {
+  if (i %% 2 == 0) print(i)
+}
+
+for (i in letters) {
+  if (i == "b") next
+  if (i == "e") break()
+  print(i)
+}
+
+# Выполните в своей сессии следующие команды (про функцию set.seed я расскажу чуть далее):
+  
+# set.seed(1337)
+# x <- runif(1e6, min = -1, max = 1)
+# Теперь в вашем распоряжении вектор x длиной один миллион. Мне крайне интересно, сколько среди них чисел в диапазоне (-0.2, 0.3). Для определённости не включая границы интервала. Впрочем, кто знаком с теорией вероятностей, тот знает, что это уточнение несущественно.
+# P.S. Задача-то простецкая вышла: всегда можно распечатать x на принтере и посчитать вручную.
+set.seed(1337)
+x <- runif(1e6, min = -1, max = 1)
+y <- sum(x > -0.2 & x < 0.3)
+# [1] 249644
+
+
+# Вам не нравятся ни монетка, ни "камни-ножницы-бумага"? 
+# Хорошо, давайте играть в "Монополию", только у меня нет кубика. Напишите его сами!
+# Функция dice_roll(n) должна выдавать n независимых бросков игрального кубика. 
+# Допустимые значения, разумеется, в диапазоне от 1 до 6.
+dice_roll <- function(n) {
+  z <- runif(n)
+  ifelse(z > 5/6, "1",
+         ifelse(z > 4/6, "2",
+                ifelse(z > 3/6, "3",
+                       ifelse(z > 2/6, "4",
+                              ifelse(z > 1/6, "5", "6")))))
+}
+dice_roll(3)
+
+# Пакеты
+
+.libPaths() # Где R хранит пакеты
+
+installed.packages() # Показывает установленные пакеты
+
+library(grid) # Подключаем пакет grid requare(package)
+grid.newpage()
+grid.lines()
+
+install.packages("xts", dependencies = T) # Установка пакета xts
+library(xts) # Подключение пакета xts
+update.packages(xts)
+
+sessionInfo() # Информация о системе и пакетах
+
+
+install.packages("randtoolbox", dependencies = T)
+library(randtoolbox)
+
+help(package = "xts")
+
+install.packages("quantmod", dependencies = T)
+library(quantmod)
+
+install.packages("zoo", dependencies = T)
+library(zoo)
+
+help(package = "quantmod")
+help(package = "zoo")
+
+
+
+# Общий глоссарий для этого урока:
+  
+# ?if, ?ifelse, ?switch
+# ?Logic
+# ?repeat, ?while, ?for
+# ?installed.packages, ?library, ?require
+# ?install.packages, ?update.packages
+# ?sessionInfo
+
+
+
+
+
